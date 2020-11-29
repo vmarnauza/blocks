@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "parcel index.html -p 8080",
-    "build": "parcel build index.html",
+    "serve": "parcel src/index.html -p 8080",
+    "build": "parcel build src/index.html",
     "lint": "eslint"
   },
   "keywords": [],

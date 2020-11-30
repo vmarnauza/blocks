@@ -1,8 +1,11 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createCubes from "./cubes";
+import createLights from "./lights";
 
 let camera, scene, renderer;
 let frustumWidth, aspect, frustumSize;
+let controls;
 
 setup();
 animate();
@@ -18,29 +21,34 @@ function setup() {
     frustumSize.height,
     -frustumSize.height,
     0,
-    1000
+    10000
   );
 
-  camera.position.z = 200;
+  camera.position.set(0, 0, 1500);
+  // camera.rotation.set(Math.PI / 4, Math.PI / 4, 0);
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color("#f7f7f7");
 
-  const cubes = createCubes(3, new THREE.Vector3(200, 200, 200), frustumSize);
-  scene.add(...cubes);
+  scene.add(...createCubes(7, 10, new THREE.Vector3(100, 100, 100)));
+  scene.add(...createLights());
 
-  const ambientLight = new THREE.AmbientLight(0xfffffff, 0.7); // soft white light
-  const spotLight = new THREE.SpotLight(0xffffff, 1);
-  spotLight.position.set(0, 100, 200);
-  spotLight.angle = Math.PI;
-  spotLight.decay = 0.2;
-  spotLight.distance = 500;
+  const geometry = new THREE.PlaneGeometry(2000, 3000);
+  const material = new THREE.MeshLambertMaterial({
+    color: new THREE.Color("#71427E"),
+    side: THREE.DoubleSide,
+  });
+  const plane = new THREE.Mesh(geometry, material);
 
-  scene.add(ambientLight);
-  scene.add(spotLight);
+  plane.position.set(0, -200, -200);
+  plane.rotation.set(-Math.PI / 4, 0, 0);
+  scene.add(plane);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.update();
 
   document.querySelector("#scene").appendChild(renderer.domElement);
   window.addEventListener("resize", onWindowResize);
@@ -48,6 +56,8 @@ function setup() {
 
 function animate() {
   requestAnimationFrame(animate);
+
+  controls.update();
 
   renderer.render(scene, camera);
 }

@@ -4,15 +4,22 @@ const lightColor = "#fff";
 
 const createLights = () => {
   const color = new THREE.Color(lightColor);
-  const ambientLight = new THREE.AmbientLight(color, 0.7); // soft white light
-  const spotLight = new THREE.SpotLight(color, 1);
+  const ambientLight = new THREE.AmbientLight(color, 0.75);
 
-  spotLight.position.set(0, 100, 200);
-  spotLight.angle = Math.PI;
-  spotLight.decay = 0.2;
-  spotLight.distance = 500;
+  const spotLight = new THREE.SpotLight(color, 0.5);
 
-  return [ambientLight, spotLight];
+  spotLight.position.set(50, 200, 100);
+  spotLight.angle = Math.PI / 4;
+  spotLight.decay = 1;
+  spotLight.distance = 0;
+
+  spotLight.castShadow = true;
+  spotLight.shadow.mapSize.width = 4096;
+  spotLight.shadow.mapSize.height = 4096;
+
+  const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+
+  return [ambientLight, spotLight, spotLightHelper];
 };
 
 export default createLights;

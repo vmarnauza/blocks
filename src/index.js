@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import createFloor from "./floor";
 import createCubes from "./cubes";
 import createLights from "./lights";
 
@@ -11,8 +12,20 @@ setup();
 animate();
 
 function setup() {
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color("#000");
+
+  scene.add(...createCubes(7, 10, new THREE.Vector3(10, 10, 10)));
+  scene.add(...createLights());
+  scene.add(createFloor());
+
   aspect = window.innerWidth / window.innerHeight;
-  frustumWidth = 1000;
+  frustumWidth = 100;
   frustumSize = new THREE.Vector2(frustumWidth, frustumWidth / aspect);
 
   camera = new THREE.OrthographicCamera(
@@ -21,31 +34,11 @@ function setup() {
     frustumSize.height,
     -frustumSize.height,
     0,
-    10000
+    1000
   );
 
-  camera.position.set(0, 0, 1500);
-  // camera.rotation.set(Math.PI / 4, Math.PI / 4, 0);
-
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color("#f7f7f7");
-
-  scene.add(...createCubes(7, 10, new THREE.Vector3(100, 100, 100)));
-  scene.add(...createLights());
-
-  const geometry = new THREE.PlaneGeometry(2000, 3000);
-  const material = new THREE.MeshLambertMaterial({
-    color: new THREE.Color("#71427E"),
-    side: THREE.DoubleSide,
-  });
-  const plane = new THREE.Mesh(geometry, material);
-
-  plane.position.set(0, -200, -200);
-  plane.rotation.set(-Math.PI / 4, 0, 0);
-  scene.add(plane);
-
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.position.set(0, 100, 100);
+  camera.lookAt(scene.position);
 
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();

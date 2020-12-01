@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import colors from "./colors";
 
-const createCubes = (maxRows, maxColumns, size) => {
-  const cubes = [];
+const createPillars = (maxRows, maxColumns, size) => {
+  const pillars = [];
   const boxInterval = size.x * 2;
 
   for (let row = 0; row < maxRows; row++) {
@@ -27,11 +27,11 @@ const createCubes = (maxRows, maxColumns, size) => {
       mesh.castShadow = true;
       mesh.receiveShadow = true;
 
-      cubes.push(mesh);
+      pillars.push(mesh);
     }
   }
 
-  return cubes;
+  return pillars;
 };
 
-export default createCubes;
+export default createPillars;

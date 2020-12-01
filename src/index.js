@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createGround from "./ground";
-import createCubes from "./cubes";
+import createPillars from "./pillars";
 import createLights from "./lights";
 
 let camera, scene, renderer;
@@ -20,7 +20,7 @@ function setup() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color("#000");
 
-  scene.add(...createCubes(7, 10, new THREE.Vector3(10, 10, 10)));
+  scene.add(...createPillars(7, 10, new THREE.Vector3(10, 10, 10)));
   scene.add(...createLights());
   scene.add(createGround());
 

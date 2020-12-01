@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createGround from "./ground";
 import createPillars from "./pillars";
 import createLights from "./lights";
+import { groundColor } from "./colors";
 
 let camera, scene, renderer;
 let frustumWidth, aspect, frustumSize;
@@ -15,10 +16,10 @@ function setup() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color("#000");
+  scene.background = new THREE.Color(groundColor);
+  scene.fog = new THREE.Fog(new THREE.Color(groundColor), 70, 140);
 
   scene.add(...createPillars(7, 10, new THREE.Vector3(10, 10, 10)));
   scene.add(...createLights());

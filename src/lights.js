@@ -6,7 +6,7 @@ const createLights = () => {
   const color = new THREE.Color(lightColor);
   const ambientLight = new THREE.AmbientLight(color, 0.75);
 
-  const spotLight = new THREE.SpotLight(color, 0.5);
+  const spotLight = new THREE.SpotLight(color, 0.75);
 
   spotLight.position.set(50, 200, 100);
   spotLight.angle = Math.PI / 4;
@@ -14,6 +14,7 @@ const createLights = () => {
   spotLight.distance = 0;
 
   spotLight.castShadow = true;
+  spotLight.shadow.radius = 10;
   spotLight.shadow.mapSize.width = 4096;
   spotLight.shadow.mapSize.height = 4096;
 

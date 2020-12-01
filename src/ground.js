@@ -1,7 +1,5 @@
 import * as THREE from "three";
-import { colors } from "./colors";
-
-const groundColor = colors.purple;
+import { groundColor } from "./colors";
 
 const createGround = () => {
   const color = new THREE.Color(groundColor);

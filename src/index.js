@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import createFloor from "./floor";
+import createGround from "./ground";
 import createCubes from "./cubes";
 import createLights from "./lights";
 
@@ -22,7 +22,7 @@ function setup() {
 
   scene.add(...createCubes(7, 10, new THREE.Vector3(10, 10, 10)));
   scene.add(...createLights());
-  scene.add(createFloor());
+  scene.add(createGround());
 
   aspect = window.innerWidth / window.innerHeight;
   frustumWidth = 100;

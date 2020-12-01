@@ -19,7 +19,7 @@ function setup() {
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(groundColor);
-  scene.fog = new THREE.Fog(new THREE.Color(groundColor), 70, 140);
+  scene.fog = new THREE.Fog(new THREE.Color(groundColor), 100, 150);
 
   scene.add(...createPillars(7, 10, new THREE.Vector3(10, 10, 10)));
   scene.add(...createLights());

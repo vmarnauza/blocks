@@ -6,7 +6,7 @@ const createLights = () => {
   const color = new THREE.Color(lightColor);
   const ambientLight = new THREE.AmbientLight(color, 0.75);
 
-  const spotLight = new THREE.SpotLight(color, 0.75);
+  const spotLight = new THREE.SpotLight(color, 0.5);
 
   spotLight.position.set(50, 200, 100);
   spotLight.angle = Math.PI / 4;

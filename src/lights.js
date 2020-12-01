@@ -17,9 +17,9 @@ const createLights = () => {
   spotLight.shadow.mapSize.width = 4096;
   spotLight.shadow.mapSize.height = 4096;
 
-  const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+  // const spotLightHelper = new THREE.SpotLightHelper(spotLight);
 
-  return [ambientLight, spotLight, spotLightHelper];
+  return [ambientLight, spotLight];
 };
 
 export default createLights;

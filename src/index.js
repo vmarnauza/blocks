@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createGround from "./ground";
 import createPillars from "./pillars";
+import createPillarTop from "./pillarTop";
 import createLights from "./lights";
 import { groundColor } from "./colors";
 
@@ -21,7 +22,13 @@ function setup() {
   scene.background = new THREE.Color(groundColor);
   scene.fog = new THREE.Fog(new THREE.Color(groundColor), 10, 20);
 
-  scene.add(...createPillars(7, 10, new THREE.Vector3(1, 1, 1)));
+  const pillars = createPillars(7, 10, new THREE.Vector3(1, 1, 1));
+  const pillarTops = pillars.map((pillar) =>
+    createPillarTop(pillar, 10, 10, 1, 3)
+  );
+
+  scene.add(...pillars);
+  scene.add(...pillarTops);
   scene.add(...createLights());
   scene.add(createGround());
 

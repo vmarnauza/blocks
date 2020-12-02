@@ -1,5 +1,7 @@
 This is an attempt to recreate a piece of generative 3D art using [Three.js](https://github.com/mrdoob/three.js/). You can have a look at the original [here](https://www.reddit.com/r/generative/comments/k2u3c8/playing_around_with_different_aspect_ratios_heres/).
 
+**[Click here to see my progress](https://blocks-01.netlify.app/)**
+
 # Development set-up
 
 ## Run the project locally

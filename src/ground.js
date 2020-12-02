@@ -4,7 +4,7 @@ import { groundColor } from "./colors";
 const createGround = () => {
   const color = new THREE.Color(groundColor);
 
-  const geometry = new THREE.PlaneGeometry(200, 200);
+  const geometry = new THREE.PlaneGeometry(20, 20);
   const material = new THREE.MeshLambertMaterial({
     color,
     side: THREE.DoubleSide,

@@ -19,14 +19,14 @@ function setup() {
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(groundColor);
-  scene.fog = new THREE.Fog(new THREE.Color(groundColor), 100, 150);
+  scene.fog = new THREE.Fog(new THREE.Color(groundColor), 10, 20);
 
-  scene.add(...createPillars(7, 10, new THREE.Vector3(10, 10, 10)));
+  scene.add(...createPillars(7, 10, new THREE.Vector3(1, 1, 1)));
   scene.add(...createLights());
   scene.add(createGround());
 
   aspect = window.innerWidth / window.innerHeight;
-  frustumWidth = 100;
+  frustumWidth = 10;
   frustumSize = new THREE.Vector2(frustumWidth, frustumWidth / aspect);
 
   camera = new THREE.OrthographicCamera(
@@ -35,10 +35,10 @@ function setup() {
     frustumSize.height,
     -frustumSize.height,
     0,
-    1000
+    100
   );
 
-  camera.position.set(0, 100, 100);
+  camera.position.set(0, 10, 10);
   camera.lookAt(scene.position);
 
   controls = new OrbitControls(camera, renderer.domElement);

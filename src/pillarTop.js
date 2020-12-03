@@ -31,9 +31,10 @@ export const createPillarTop = (
     space -= spaceToRemove;
   }
 
+  const pillarSize = new THREE.Vector3();
   pillar.geometry.computeBoundingBox();
-  const pillarBoundingBox = pillar.geometry.boundingBox;
-  const pillarSize = pillarBoundingBox.getSize();
+  pillar.geometry.boundingBox.getSize(pillarSize);
+
   const availableWidth = pillarSize.x;
   const availableDepth = pillarSize.z;
   const originX = -availableWidth / 2;

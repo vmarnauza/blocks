@@ -22,16 +22,6 @@ function setup() {
   scene.background = new THREE.Color(groundColor);
   scene.fog = new THREE.Fog(new THREE.Color(groundColor), 10, 20);
 
-  const pillars = createPillars(7, 10, new THREE.Vector3(1, 1, 1));
-  const pillarTops = pillars.map((pillar) =>
-    createPillarTop(pillar, 10, 10, 1, 3)
-  );
-
-  scene.add(...pillars);
-  scene.add(...pillarTops);
-  scene.add(...createLights());
-  scene.add(createGround());
-
   aspect = window.innerWidth / window.innerHeight;
   frustumWidth = 10;
   frustumSize = new THREE.Vector2(frustumWidth, frustumWidth / aspect);
@@ -53,6 +43,36 @@ function setup() {
 
   document.querySelector("#scene").appendChild(renderer.domElement);
   window.addEventListener("resize", onWindowResize);
+  window.addEventListener("keyup", onKeyUp);
+
+  populateScene();
+}
+
+function populateScene() {
+  const pillars = createPillars(10, 7, new THREE.Vector3(1, 1, 1));
+  const pillarTops = pillars.map((pillar) =>
+    createPillarTop({
+      pillar,
+      gridSize: new THREE.Vector2(10, 10),
+      gridGap: 1,
+      gridHeight: 3,
+      minElementSize: new THREE.Vector2(2, 4),
+      maxElementSize: new THREE.Vector2(4, 6),
+    })
+  );
+
+  clearScene();
+
+  scene.add(...pillars);
+  scene.add(...pillarTops);
+  scene.add(...createLights());
+  scene.add(createGround());
+}
+
+function clearScene() {
+  while (scene.children.length > 0) {
+    scene.remove(scene.children[0]);
+  }
 }
 
 function animate() {
@@ -61,6 +81,10 @@ function animate() {
   controls.update();
 
   renderer.render(scene, camera);
+}
+
+function onKeyUp(event) {
+  if (event.code === "Space") populateScene();
 }
 
 function onWindowResize() {

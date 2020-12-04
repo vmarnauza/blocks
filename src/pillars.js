@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import colors from "./colors";
 
-const createPillars = (maxRows, maxColumns, size) => {
+const createPillars = (maxColumns, maxRows, size) => {
   const pillars = [];
   const boxInterval = size.x * 2;
 
@@ -19,7 +19,7 @@ const createPillars = (maxRows, maxColumns, size) => {
       });
       const mesh = new THREE.Mesh(geometry, material);
       const x = originX + boxInterval * col;
-      const z = (boxInterval / 2) * row;
+      const z = 0.75 + (boxInterval / 2) * row; // 0.75 seems like a good nudge forward for all pillars
 
       mesh.position.set(x, height / 2, z);
       mesh.rotation.set(0, Math.PI / 4, 0);

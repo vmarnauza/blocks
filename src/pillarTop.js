@@ -4,17 +4,20 @@ import colors from "./colors";
 export const createPillarTop = ({
   pillar, // Object3D
   gridSize, // vector 2
-  gridGap, // number
+  gridGap, // weighted values
+  padding = 1, // number
   gridHeight, // number
   minElementSize, // vector 2
   maxElementSize, // vector 2
 }) => {
   const boxGridPositions = [];
-  const padding = gridGap;
-  let colSpace = gridSize.x - padding * 2;
+  let colSpace = gridSize.x;
+  let gap = gridGap.random;
 
   while (colSpace) {
-    let rowSpace = gridSize.y - padding * 2;
+    if (colSpace <= gap) break;
+
+    let rowSpace = gridSize.y;
     const minSizeX = Math.max(minElementSize.x, 1);
     const maxSizeX = maxElementSize.x;
     const elementSizeX = Math.min(
@@ -23,6 +26,8 @@ export const createPillarTop = ({
     );
 
     while (rowSpace) {
+      if (rowSpace <= gap) break;
+
       const minSizeY = Math.max(minElementSize.y, 1);
       const maxSizeY = maxElementSize.y;
       const elementSizeY = Math.min(
@@ -31,34 +36,28 @@ export const createPillarTop = ({
       );
 
       boxGridPositions.push({
-        colStart: gridSize.x - colSpace - padding,
-        colEnd: gridSize.x - colSpace + elementSizeX - padding,
-        rowStart: gridSize.y - rowSpace - padding,
-        rowEnd: gridSize.y - rowSpace + elementSizeY - padding,
+        colStart: gridSize.x - colSpace,
+        colEnd: gridSize.x - colSpace + elementSizeX,
+        rowStart: gridSize.y - rowSpace,
+        rowEnd: gridSize.y - rowSpace + elementSizeY,
       });
 
-      const rowSpaceToRemove =
-        rowSpace >= elementSizeY + gridGap
-          ? elementSizeY + gridGap
-          : elementSizeY;
-
-      rowSpace -= rowSpaceToRemove;
+      if (elementSizeY < rowSpace - gap) rowSpace -= gap;
+      rowSpace -= elementSizeY;
     }
 
-    const colSpaceToRemove =
-      colSpace >= elementSizeX + gridGap
-        ? elementSizeX + gridGap
-        : elementSizeX;
-
-    colSpace -= colSpaceToRemove;
+    if (elementSizeX < colSpace - gap) colSpace -= gap;
+    colSpace -= elementSizeX;
   }
 
   const pillarSize = new THREE.Vector3();
   pillar.geometry.computeBoundingBox();
   pillar.geometry.boundingBox.getSize(pillarSize);
 
-  const availableWidth = pillarSize.x;
-  const availableDepth = pillarSize.z;
+  const totalGridWidth = gridSize.x + padding * 2;
+  const totalGridDepth = gridSize.y + padding * 2;
+  const availableWidth = (pillarSize.x / totalGridWidth) * gridSize.x;
+  const availableDepth = (pillarSize.z / totalGridDepth) * gridSize.y;
   const originX = -availableWidth / 2;
   const originZ = -availableDepth / 2;
   const colSize = availableWidth / gridSize.x;
@@ -78,7 +77,6 @@ export const createPillarTop = ({
       colSize * gridHeight,
       (gridPos.rowEnd - gridPos.rowStart) * rowSize
     );
-
     const geometry = getGeometry(size);
     const material = new THREE.MeshLambertMaterial({
       color: new THREE.Color(colors.random()),
@@ -103,7 +101,7 @@ export const createPillarTop = ({
 };
 
 const getGeometry = (size) => {
-  if (size.x === size.y && size.y === size.z)
+  if (size.x === size.z && size.y === size.z)
     return new THREE.SphereGeometry(size.x / 2, 32, 32);
   else return new THREE.BoxGeometry(size.x, size.y, size.z);
 };

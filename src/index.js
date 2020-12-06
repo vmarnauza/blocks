@@ -5,6 +5,7 @@ import createPillars from "./pillars";
 import createPillarTop from "./pillarTop";
 import createLights from "./lights";
 import { groundColor } from "./colors";
+import WeightedValues from "./utilities/WeightedValues";
 
 let camera, scene, renderer;
 let frustumWidth, aspect, frustumSize;
@@ -54,10 +55,13 @@ function populateScene() {
     createPillarTop({
       pillar,
       gridSize: new THREE.Vector2(10, 10),
-      gridGap: 1,
+      gridGap: new WeightedValues({
+        values: [1, 2, 3],
+        weights: [7, 2.5, 0.5],
+      }),
       gridHeight: 3,
-      minElementSize: new THREE.Vector2(2, 4),
-      maxElementSize: new THREE.Vector2(4, 6),
+      minElementSize: new THREE.Vector2(1, 3),
+      maxElementSize: new THREE.Vector2(6, 10),
     })
   );
 

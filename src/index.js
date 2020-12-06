@@ -51,7 +51,7 @@ function setup() {
 
 function populateScene() {
   const pillars = createPillars(10, 7, new THREE.Vector3(1, 1, 1));
-  const pillarTops = pillars.map((pillar) =>
+  const pillarTopsLow = pillars.map((pillar) =>
     createPillarTop({
       pillar,
       gridSize: new THREE.Vector2(10, 10),
@@ -64,11 +64,27 @@ function populateScene() {
       maxElementSize: new THREE.Vector2(6, 10),
     })
   );
+  // TODO: The next level must be relative to the first in terms of shape positions and sizes
+  // const pillarTopsHigh = pillars.map((pillar) =>
+  //   createPillarTop({
+  //     pillar,
+  //     gridSize: new THREE.Vector2(10, 10),
+  //     gridGap: new WeightedValues({
+  //       values: [2, 4],
+  //       weights: [2, 8],
+  //     }),
+  //     gridHeight: 1,
+  //     minElementSize: new THREE.Vector2(1, 2),
+  //     maxElementSize: new THREE.Vector2(5, 5),
+  //     level: 4,
+  //   })
+  // );
 
   clearScene();
 
   scene.add(...pillars);
-  scene.add(...pillarTops);
+  scene.add(...pillarTopsLow);
+  // scene.add(...pillarTopsHigh);
   scene.add(...createLights());
   scene.add(createGround());
 }

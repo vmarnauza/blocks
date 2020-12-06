@@ -9,6 +9,7 @@ export const createPillarTop = ({
   gridHeight, // number
   minElementSize, // vector 2
   maxElementSize, // vector 2
+  level = 0,
 }) => {
   const boxGridPositions = [];
   let colSpace = gridSize.x;
@@ -63,10 +64,12 @@ export const createPillarTop = ({
   const colSize = availableWidth / gridSize.x;
   const rowSize = availableDepth / gridSize.y;
   const group = new THREE.Group();
+  const groupHeight = colSize * gridHeight;
+  const groupPositionOffsetY = groupHeight + groupHeight * 1.5 * level;
 
   group.position.set(
     pillar.position.x,
-    pillar.position.y + pillarSize.y / 2 + colSize * gridHeight,
+    pillar.position.y + pillarSize.y / 2 + groupPositionOffsetY,
     pillar.position.z
   );
   group.rotation.setFromQuaternion(pillar.quaternion);
@@ -74,7 +77,7 @@ export const createPillarTop = ({
   boxGridPositions.forEach((gridPos) => {
     const size = new THREE.Vector3(
       (gridPos.colEnd - gridPos.colStart) * colSize,
-      colSize * gridHeight,
+      groupHeight,
       (gridPos.rowEnd - gridPos.rowStart) * rowSize
     );
     const geometry = getGeometry(size);

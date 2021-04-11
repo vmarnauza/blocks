@@ -12,10 +12,11 @@ const createPillars = (maxColumns, maxRows, size) => {
     const originX = -boxInterval * ((columns - 1) / 2);
 
     for (let col = 0; col < columns; col++) {
+      const noise = Math.random() * 1.2;
       const height = size.y * (maxRows - row);
       const geometry = new THREE.BoxGeometry(size.x, height, size.z);
       const material = new THREE.MeshLambertMaterial({
-        color: new THREE.Color(colors.random()),
+        color: new THREE.Color(colors.getByAbsolutePosition(col + noise)),
       });
       const mesh = new THREE.Mesh(geometry, material);
       const x = originX + boxInterval * col;

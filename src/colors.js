@@ -17,6 +17,30 @@ export const random = () => {
   return colorArray[randomIndex];
 };
 
+export const getByIndex = (index) => {
+  const colorArray = Object.values(colors);
+  return colorArray[index];
+};
+
+export const getByRelativePosition = (pos) => {
+  if (pos < 0 || pos > 1)
+    throw new Error("Position must be a number between 0 and 1.");
+
+  const index = Math.round(pos * Object.keys(colors).length);
+
+  return getByIndex(index);
+};
+
+export const getByAbsolutePosition = (pos) => {
+  if (pos < 0) throw new Error("Position must be an integer greater than 0.");
+
+  const index = Math.floor(pos % Object.keys(colors).length);
+
+  return getByIndex(index);
+};
+
 export default {
   random,
+  getByRelativePosition,
+  getByAbsolutePosition,
 };
